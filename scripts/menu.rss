@@ -8,7 +8,7 @@
    <item>
      <title>Movie Browser</title>
      <link>http://127.0.0.1/media/sda1/scripts/browse_movies.php</link>
-     <media:thumbnail url="http://127.0.0.1/media/sda1/scripts/defaultposterfolder.png" width="80" height="120" />
+     <media:thumbnail url="http://127.0.0.1/media/sda1/scripts/image/moviewall.jpg" />
      <mediaDisplay name=photoView
          rowCount=2
          columnCount=7
@@ -24,38 +24,28 @@
          idleImageYPC=42
          idleImageWidthPC=7
          idleImageHeightPC=16
-         />
+         >
+          <idleImage> image/POPUP_LOADING_01.jpg </idleImage>
+          <idleImage> image/POPUP_LOADING_02.jpg </idleImage>
+          <idleImage> image/POPUP_LOADING_03.jpg </idleImage>
+      
+          <idleImage> image/POPUP_LOADING_04.jpg </idleImage>
+          <idleImage> image/POPUP_LOADING_05.jpg </idleImage>
+          <idleImage> image/POPUP_LOADING_06.jpg </idleImage>
+         </mediaDisplay>
    </item>
 
    <item>
-     <title>Movie Folder Browser</title>
-     <link>http://127.0.0.1/media/sda1/scripts/browse_folder_movies.php</link>
-     <media:thumbnail url="http://127.0.0.1/media/sda1/scripts/defaultposterfolder.png" width="80" height="120" />
-     <mediaDisplay name=photoView
-         rowCount=2
-         columnCount=7
-         drawItemText="no"
-         menuBorderColor="0:0:0"
-         sideColorBottom="0:0:0"
-         sideColorTop="0:0:0"
-         itemImageXPC="10"
-         itemOffsetXPC="10"
-         backgroundColor="0:0:0"   
-         sliding="yes"
-         idleImageXPC=45
-         idleImageYPC=42
-         idleImageWidthPC=7
-         idleImageHeightPC=16
-         />
-   </item>
-   <item>
      <title>Metafeeds</title>
      <link>http://www.metafeeds.com/channel/main/rss</link>
+     <media:thumbnail url="http://127.0.0.1/media/sda1/scripts/image/rss_black.jpg" />
    </item>
 
    <item>
      <title>xtreamer</title>
      <link>http://www.metafeeds.com/channel/xtreamer/rss</link>
+     <media:thumbnail url="http://www.xtreamer.net/images/general/xtremer_logo.jpg" />
+     
    </item>
 
 </channel>

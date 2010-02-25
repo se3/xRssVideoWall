@@ -20,7 +20,7 @@ if ("" == $moviepage)
 {
    echo "<title>Movie HDD Browser</title>\n";
    unset($aMovieFolder);
-   scanfolder( $root );   
+   scanfolder( $root );
    printfolder( $root );
 }
 else
@@ -33,81 +33,115 @@ else
    printfiles( $moviepage );
 }
 
-
-function scanfolder( $moviepage )
+function checkForMoviefolder( $folder )
 {
-   global $aMovieFolder, $aMovieFiles;
-      
-   if ( is_dir( $moviepage ) ) {
-      if ( $dh = opendir($moviepage) ) {
-         while ( false !== ($file = readdir($dh)) ) {  
-                  
-            if( is_dir( $moviepage."/".$file ) ) {
-               $aMovieFolder[] = $moviepage."/".$file;
+   $moviefolder = "";
+   if ( $dh = opendir($folder) ) {
+      while ( false !== ($file = readdir($dh)) ) {
+         if( "." != $file && ".." != $file && is_dir( $folder."/".$file ) ) {
+            break;
+         }else
+         if( is_file( $folder."/".$file ) ){
+            
+            if ( substr($file, 0, strlen($file)-4 ) == basename( $folder ) ){
+               $moviefolder = $folder."/".$file;
+               break;
             }
             
-            if( is_file( $moviepage.$file ) ){
+         }
+      }
+   }
+   return $moviefolder;
+}
+         
+function scanfolder( $moviepage, $recursive = false )
+{
+   global $aMovieFolder, $aMovieFiles;
+   $retval = false;
+
+   if ( is_dir( $moviepage ) ) {
+      if ( $dh = opendir($moviepage) ) {
+         while ( false !== ($file = readdir($dh)) ) {
+            if( is_dir( $moviepage.$file ) ) {
+               $moviefolderfile = checkForMoviefolder( $moviepage.$file ) ;
+               if ( "" != $moviefolderfile ){
+                  $aMovieFiles[] = $moviefolderfile;
+               }
+               else {
+                  $aMovieFolder[] = $moviepage.$file;
+               }
+            }else if( is_file( $moviepage.$file ) ){
                $aMovieFiles[] = $moviepage.$file;
             }
          }
       }
    }
+   return $retval;
 }
 
 function printfolder( $moviepage )
 {
    global $aMovieFolder, $root;
+   
    if ( 0 < count($aMovieFolder))
    foreach( $aMovieFolder as $sFolder ) {
            
-      if ( basename($sFolder) != "." && realpath($sFolder) != dirname($root) ){     
-         $sFile = realpath($sFolder)."/";
-         
-         if ( basename($sFolder) == ".." ){
-            $sCimage = '/tmp/usbmounts/sda1/scripts/defaultposterback.png';
-            $sFile = dirname(dirname($sFolder))."/";
-         }
-         else{
-            $sCimage = $sFolder.'/folder.jpg';
-          
-            if( !file_exists($sCimage)) {
-               $sCimage = '/sbin/www/xmproot/scripts/defaultposterfolder.png';
-            }
+      if ( basename($sFolder) != "." && basename($sFolder) != ".." && realpath($sFolder) != dirname($root) ){     
+         $sFile = realpath($sFolder)."/";         
+         $sCimage = $sFolder.'/folder.jpg';
+       
+         if( !file_exists($sCimage)) {
+            $sCimage = '/tmp/usbmounts/sda1/scripts/image/defaultposterfolder.png';
          }
          
-         echo "<item>\n";      
-         echo '<media:thumbnail url="'.$sCimage.'" width="80" height="120" />'."\n";
-         echo "<title>..".substr($sFile, strlen($root))."</title>\n";
+         $output =  "<item>\n";      
+         $output.=  '<media:thumbnail url="'.$sCimage.'" width="80" height="120" />'."\n";
+         $output.=  "<title>..".substr($sFile, strlen($root))."</title>\n";
          
          $sFile = str_replace("\ ", "%20", $sFile);
          $sFile = str_replace(" ", "%20", $sFile);
-         echo '<link>http://127.0.0.1/media/sda1/scripts/browse_movies.php?page='.$sFile."</link>\n";
-         echo '<mediaDisplay name="photoView" 
+         
+         $output.=  '<link>http://127.0.0.1/media/sda1/scripts/browse_movies.php?page='.$sFile."</link>\n";
+         $output.=  '<mediaDisplay name="photoView" 
             rowCount="2"
             columnCount="7"
             drawItemText="no"
             menuBorderColor="0:0:0"
             sideColorBottom="0:0:0"
             sideColorTop="0:0:0"
+            sideColorLeft="0:0:0"
+            sideColorRight="0:0:0" 
             itemImageXPC="10"
             itemImageYPC="5"
             itemOffsetXPC="7"
             itemOffsetYPC="0"
             backgroundColor="0:0:0"   
+            itemBackgroundColor="0:0:0"
             sliding="yes"
             idleImageXPC="45"
             idleImageYPC="42"
             idleImageWidthPC="7"
-            idleImageHeightPC="16"/>';
-
-         echo "\n</item>\n\n";
+            idleImageHeightPC="16"
+            >
+             <idleImage> image/POPUP_LOADING_01.jpg </idleImage>
+             <idleImage> image/POPUP_LOADING_02.jpg </idleImage>
+             <idleImage> image/POPUP_LOADING_03.jpg </idleImage>
+         
+             <idleImage> image/POPUP_LOADING_04.jpg </idleImage>
+             <idleImage> image/POPUP_LOADING_05.jpg </idleImage>
+             <idleImage> image/POPUP_LOADING_06.jpg </idleImage>
+            </mediaDisplay>';
+    
+         $output.= "\n</item>\n\n";
+         echo $output; 
       }
-   }
+   }   
 }
 
 function printfiles( $moviepage )
 {
    global $aMovieFiles, $supported_extensions;
+   
    if ( 0 < count($aMovieFiles))
    foreach( $aMovieFiles as $sFile ) {
       
@@ -119,24 +153,24 @@ function printfiles( $moviepage )
          $file_name =  basename($sFile,'.'.$info['extension']);
        
          $sCimage = $moviepage."/".$file_name.'.jpg';
-       
+
          if( !file_exists($sCimage)) {
-            $sCimage = '/sbin/www/xmproot/scripts/defaultpostermovies.png';
+            $sCimage = dirname($sFile)."/folder.jpg";
+            if( !file_exists($sCimage))
+              $sCimage = '/tmp/usbmounts/sda1/scripts/image/defaultpostermovies.png';
          }
-               
-         echo "<item>\n";             
-         echo "<title>$file_name - ".intval( ($aFileinfo['size'])/1000000 )." MB </title>\n" ;
-         echo '<media:thumbnail url="'.$sCimage.'" width="80" height="120" />'."\n";
-         echo '<link>file://'.$sFile.'</link>';
-         echo "<enclosure type=\"video/mp4\" url=\"$sFile\"/>\n";
          
-         echo "\n</item>\n\n";
-      }
+         $output = "<item>\n";             
+         $output.= "<title>$file_name - ".intval( ($aFileinfo['size'])/1000000 )." MB </title>\n" ;
+         $output.= '<media:thumbnail url="'.$sCimage.'" width="80" height="120" />'."\n";
+         $output.= '<link>file://'.$sFile.'</link>';
+         $output.= "<enclosure type=\"video/mp4\" url=\"$sFile\"/>\n";
+         
+         $output.= "\n</item>\n\n";
+         echo $output;
+     }
    }
 }
-
-
-
 
 
 ?>
