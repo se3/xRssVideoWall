@@ -1,0 +1,62 @@
+﻿<?xml version='1.0' ?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+<channel>
+	<title>MY FAVOURITES</title>
+	<menu>main menu</menu>
+
+   <item>
+     <title>Movie Browser</title>
+     <link>http://127.0.0.1/media/sda1/scripts/browse_movies.php</link>
+     <media:thumbnail url="http://127.0.0.1/media/sda1/scripts/defaultposterfolder.png" width="80" height="120" />
+     <mediaDisplay name=photoView
+         rowCount=2
+         columnCount=7
+         drawItemText="no"
+         menuBorderColor="0:0:0"
+         sideColorBottom="0:0:0"
+         sideColorTop="0:0:0"
+         itemImageXPC="10"
+         itemOffsetXPC="10"
+         backgroundColor="0:0:0"   
+         sliding="yes"
+         idleImageXPC=45
+         idleImageYPC=42
+         idleImageWidthPC=7
+         idleImageHeightPC=16
+         />
+   </item>
+
+   <item>
+     <title>Movie Folder Browser</title>
+     <link>http://127.0.0.1/media/sda1/scripts/browse_folder_movies.php</link>
+     <media:thumbnail url="http://127.0.0.1/media/sda1/scripts/defaultposterfolder.png" width="80" height="120" />
+     <mediaDisplay name=photoView
+         rowCount=2
+         columnCount=7
+         drawItemText="no"
+         menuBorderColor="0:0:0"
+         sideColorBottom="0:0:0"
+         sideColorTop="0:0:0"
+         itemImageXPC="10"
+         itemOffsetXPC="10"
+         backgroundColor="0:0:0"   
+         sliding="yes"
+         idleImageXPC=45
+         idleImageYPC=42
+         idleImageWidthPC=7
+         idleImageHeightPC=16
+         />
+   </item>
+   <item>
+     <title>Metafeeds</title>
+     <link>http://www.metafeeds.com/channel/main/rss</link>
+   </item>
+
+   <item>
+     <title>xtreamer</title>
+     <link>http://www.metafeeds.com/channel/xtreamer/rss</link>
+   </item>
+
+</channel>
+</rss>
