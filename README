@@ -1,6 +1,6 @@
 Introduction:
- rss video wall is a php script that is writte for Xtreamer Media Player.
- rss viedeo wall php script scans the local drives connected to Xtreamer hardware and generates rss feeds with poster wall for Internet section.
+ rss video wall is a php script that is written for Xtreamer Media Player.
+ rss video wall php script scans the local drives connected to Xtreamer hardware and generates rss feeds with poster wall for Internet section.
 
 Usage:
  - Download the current rss video wall version at http://github.com/se3/xRssVideoWall/zipball/master.
